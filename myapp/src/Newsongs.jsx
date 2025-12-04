@@ -14,7 +14,7 @@ const NewSongs = () => {
     }))
   );
 
-  const sortedSongs = [...allSongs].reverse();
+  const sortedSongs = [...allSongs];
 
   const [currentVideo, setCurrentVideo] = useState(null);
   const [fullscreen, setFullscreen] = useState(false);

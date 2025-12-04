@@ -137,7 +137,7 @@ const Temp = () => {
               key={song.id}
               className="bg-[#181818] p-4 rounded-xl hover:bg-[#262626]"
             >
-              {/* Play System */}
+              
               {currentVideo?.id === song.id && !fullScreen ? (
                 <div className="relative">
                   <iframe
@@ -185,8 +185,6 @@ const Temp = () => {
           ))}
         </div>
       )}
-
-      {/* ---------- FULL SCREEN PLAYER ---------- */}
       {fullScreen && currentVideo && (
         <div className="fixed inset-0 bg-black z-[999] flex flex-col">
           <div className="flex justify-between p-4">
@@ -206,6 +204,7 @@ const Temp = () => {
           ></iframe>
         </div>
       )}
+      
     </div>
   );
 };

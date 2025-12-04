@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchText,setViewMode  } from "./redux/singerSlice";
-import { FaHeart, FaMoon, FaSun } from "react-icons/fa";
+import { FaHeart, FaMoon, FaSun,FaTable,FaThLarge } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toggleTheme } from "./redux/themeSlice";
 
@@ -48,31 +48,16 @@ const Header = () => {
     <FaMoon size={22} className="text-black" />
   )}
         </button>
-        {/* {isLogin?(<><button
-          onClick={()=>handleLogout()}
-          className="bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition text-white"
-        >
-          Logout
-        </button></>):(<>
-        <button
-          onClick={() => navigate("/login")}
-          className="bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition text-white"
-        >
-          Login
-        </button>
-
-        <button
-          onClick={() => navigate("/signup")}
-          className="bg-green-600 px-4 py-2 rounded-full hover:bg-green-700 transition text-white"
-        >
-          Signup
-        </button>
-        </>)} */}
-        <button onClick={() =>
-         dispatch(setViewMode(viewMode === "card" ? "table" : "card"))
-            }
-         className="px-3 py-2 bg-gray-300 rounded-full">
-  {viewMode === "card" ? <p>table</p>  :<p>cart</p> }
+        
+<button
+  onClick={() => dispatch(setViewMode(viewMode === "card" ? "table" : "card"))}
+  className="px-3 py-2 rounded-full bg-white hover:bg-gray-400 transition flex items-center justify-center"
+>
+  {viewMode === "card" ? (
+    <FaTable size={20} className="text-black" />
+  ) : (
+    <FaThLarge size={20} className="text-black" />
+  )}
 </button>
         
 

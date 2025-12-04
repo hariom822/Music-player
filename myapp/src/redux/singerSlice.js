@@ -8,6 +8,7 @@ export const fetchSingers = createAsyncThunk(
     return res.data;
   }
 );
+
 const singerSlice = createSlice({
   name: "music",
   initialState: {
@@ -15,7 +16,7 @@ const singerSlice = createSlice({
     selectedSinger: null,
     searchText: "",
     favourites: [],
-    history: [],    
+    history: [],
     loading: false,
     error: null,
     viewMode: "card",
@@ -29,14 +30,15 @@ const singerSlice = createSlice({
     setSearchText: (state, action) => {
       state.searchText = action.payload;
     },
+
     setViewMode: (state, action) => {
-      state.viewMode = action.payload; 
+      state.viewMode = action.payload;
     },
+
     addToHistory: (state, action) => {
       const song = action.payload;
 
       state.history = state.history.filter((x) => x.id !== song.id);
-
       state.history.unshift(song);
 
       if (state.history.length > 20) {
@@ -53,6 +55,21 @@ const singerSlice = createSlice({
       } else {
         state.favourites.push(song);
       }
+    },
+    clearHistory: (state) => {
+      state.history = [];
+    },
+
+    clearFavourites: (state) => {
+      state.favourites = [];
+    },
+
+    clearUserData: (state) => {
+      state.history = [];
+      state.favourites = [];
+      state.selectedSinger = null;
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("loginuser");
     },
   },
 
@@ -77,7 +94,11 @@ export const {
   addToHistory,
   setSearchText,
   toggleFavourite,
-   setViewMode,
+  setViewMode,
+
+  clearHistory,
+  clearFavourites,
+  clearUserData,
 } = singerSlice.actions;
 
 export default singerSlice.reducer;

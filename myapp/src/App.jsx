@@ -14,6 +14,7 @@ import Singers from "./Singers";
 import NewSongs from "./Newsongs";
 import Oddsong from "./Oddsong";
 import Footer from "./Footer";
+import Chat from "./Chat";
 function LayoutWrapper({ children }) {
   const location = useLocation();
   const hideLayout = location.pathname === "/login" ||
@@ -25,7 +26,7 @@ function LayoutWrapper({ children }) {
     <>
       {!hideLayout && <Header />}
       {!hideLayout && <Sidebar />}
-      
+      {!hideLayout && <Chat />}
       <div>{children}</div>
     </>
   );
@@ -47,6 +48,7 @@ export default function App() {
                 <>
                   {!selectedSinger && <Temp />}
                   {selectedSinger && <Center />}
+                   
                 </>}/>
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
@@ -57,9 +59,11 @@ export default function App() {
             <Route path="/oddsong" element={<Oddsong />} />
             <Route path="*" element={<Temp />} />
            <Route path="/footer" element={<Footer />} />
+           <Route path="/chat" element={<Chat />} />
           </Routes>
         </LayoutWrapper>
       </BrowserRouter>
+      
     </div>
   );
 }
