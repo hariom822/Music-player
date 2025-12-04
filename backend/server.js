@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const url = 'mongodb://localhost:27017/spotify'
+const url = 'https://music-player-ci5q.onrender.com/find'
 const cors=require('cors')
 const app = express()
 
