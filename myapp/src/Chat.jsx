@@ -65,7 +65,7 @@ const Chat = () => {
           <div className="flex-1 p-4 overflow-y-auto">
             {messages.map((msg, index) => (
               <div key={index} className="mb-4">
-                <p className="font-bold text-blue-600">Qution</p>
+                <p className="font-bold text-blue-600">Quction</p>
                 <p className="ml-3">{msg.question}</p>
 
                 <p className="font-bold text-green-600 mt-2">Ans</p>
