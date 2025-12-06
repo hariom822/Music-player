@@ -55,7 +55,7 @@ const Sidebar = () => {
           className="flex items-center gap-3 text-lg cursor-pointer hover:opacity-80 transition"
         >
           <FaMusic />
-          <span>Odd Songs</span>
+          <span>Old Songs</span>
         </div>
         <div
           onClick={() => navigate("/favourite")}
