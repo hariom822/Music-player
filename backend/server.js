@@ -1,7 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
+<<<<<<< HEAD
 // const url = 'mongodb+srv://hariomsharmah822822_db_user/spotify'
 const url ="mongodb+srv://hariomsharmah822822_db_user:TfH8I4NfX7FjtxV4@songs.4m71qkt.mongodb.net/spotify"
+=======
+const url = 'mongodb+srv://hariomsharmah822822_db_user:TfH8I4NfX7FjtxV4@songs.4m71qkt.mongodb.net/spotify'
+>>>>>>> 5b2b11b9c7e0e7ae7a5c930531a0402b1f5af8bf
 const cors=require('cors')
 const app = express()
 
