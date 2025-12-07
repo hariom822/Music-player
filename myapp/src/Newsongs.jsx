@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 import { FaExpand } from "react-icons/fa";
 
 const NewSongs = () => {
-  const { singers } = useSelector((s) => s.music);
+  const { singers, viewMode } = useSelector((s) => s.music);
   const { darkMode } = useSelector((s) => s.theme);
 
   const allSongs = singers.flatMap((singer) =>
@@ -21,14 +21,10 @@ const NewSongs = () => {
 
   const convertEmbed = (url) => {
     if (url.includes("youtu.be")) {
-      return `https://www.youtube.com/embed/${
-        url.split("youtu.be/")[1].split("?")[0]
-      }`;
+      return `https://www.youtube.com/embed/${url.split("youtu.be/")[1].split("?")[0]}`;
     }
     if (url.includes("watch?v=")) {
-      return `https://www.youtube.com/embed/${
-        new URL(url).searchParams.get("v")
-      }`;
+      return `https://www.youtube.com/embed/${new URL(url).searchParams.get("v")}`;
     }
     return url;
   };
@@ -41,30 +37,61 @@ const NewSongs = () => {
     >
       <h1 className="text-3xl font-bold mb-6">New Songs</h1>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {sortedSongs.map((song) => (
-          <div
-            key={song.id}
-            className="bg-[#181818] p-4 rounded-lg cursor-pointer hover:bg-[#262626]"
-            onClick={() => {
-              setFullscreen(false);
-              setCurrentVideo(song);
-            }}
-          >
-            <img src={song.thumbnail} className="w-full h-40 rounded-lg" />
-            <p className="mt-2 font-semibold">{song.title}</p>
-            <p className="text-sm opacity-60">{song.singerName}</p>
-          </div>
-        ))}
-      </div>
+      {viewMode === "table" && (
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="border-b border-gray-600">
+              <th className="p-3">Thumbnail</th>
+              <th className="p-3">Title</th>
+              <th className="p-3">Singer</th>
+            </tr>
+          </thead>
 
+          <tbody>
+            {sortedSongs.map((song) => (
+              <tr
+                key={song.id}
+                className="border-b border-gray-700 hover:bg-gray-700/40 cursor-pointer"
+                onClick={() => {
+                  setFullscreen(false);
+                  setCurrentVideo(song);
+                }}
+              >
+                <td className="p-3">
+                  <img src={song.thumbnail} className="w-20 rounded-lg" />
+                </td>
+                <td className="p-3">{song.title}</td>
+                <td className="p-3">{song.singerName}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {viewMode === "card" && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {sortedSongs.map((song) => (
+            <div
+              key={song.id}
+              className="bg-[#181818] p-4 rounded-lg cursor-pointer hover:bg-[#262626]"
+              onClick={() => {
+                setFullscreen(false);
+                setCurrentVideo(song);
+              }}
+            >
+              <img src={song.thumbnail} className="w-full h-40 rounded-lg" />
+              <p className="mt-2 font-semibold">{song.title}</p>
+              <p className="text-sm opacity-60">{song.singerName}</p>
+            </div>
+          ))}
+        </div>
+      )}
       {currentVideo && !fullscreen && (
         <div className="fixed bottom-0 left-64 right-0 bg-black p-4 border-t border-gray-700 z-40">
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-lg">{currentVideo.title}</h3>
 
             <div className="flex gap-4">
-             
               <FaExpand
                 size={22}
                 className="cursor-pointer text-white"
@@ -86,11 +113,11 @@ const NewSongs = () => {
         </div>
       )}
 
-
       {currentVideo && fullscreen && (
         <div className="fixed inset-0 bg-black z-50 p-5 flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold">{currentVideo.title}</h2>
+
             <IoClose
               size={30}
               className="cursor-pointer"

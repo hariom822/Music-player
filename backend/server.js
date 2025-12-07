@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const url = 'mongodb://localhost:27017/spotify'
+// const url = 'mongodb+srv://hariomsharmah822822_db_user/spotify'
+const url ="mongodb+srv://hariomsharmah822822_db_user:TfH8I4NfX7FjtxV4@songs.4m71qkt.mongodb.net/spotify"
 const cors=require('cors')
 const app = express()
 

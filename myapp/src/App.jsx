@@ -19,8 +19,7 @@ function LayoutWrapper({ children }) {
   const location = useLocation();
   const hideLayout = location.pathname === "/login" ||
    location.pathname === "/signup" ||
-    location.pathname === "/user" ||
-     location.pathname === "/favourite";
+    location.pathname === "/user" ;
 
   return (
     <>

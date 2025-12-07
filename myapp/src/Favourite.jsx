@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { FaHeart, FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
+import {  clearFavourites } from "./redux/singerSlice";
 const Favourite = () => {
   const navigate = useNavigate();
   const { favourites } = useSelector((s) => s.music);
-
+const { darkMode } = useSelector((s) => s.theme)
   const [playSong, setPlaySong] = useState(null);
-
+ const dispatch = useDispatch();
   const convertEmbed = (url) => {
     if (url.includes("youtu.be")) {
       const id = url.split("youtu.be/")[1].split("?")[0];
@@ -20,10 +20,16 @@ const Favourite = () => {
     }
     return url;
   };
-
+ const alldelete=()=>{
+   setPlaySong(null);
+  dispatch(clearFavourites());
+ 
+ }
   return (
-    <div className="text-white p-6 ">
-
+    <div  className={`ml-64 mt-10 p-8 min-h-screen ${
+        darkMode ? "text-white bg-black" : "text-black bg-white"
+      }`}>
+     
       <div className="flex items-center gap-4 mb-6">
         <FaArrowLeft
           className="cursor-pointer text-2xl"
@@ -32,18 +38,27 @@ const Favourite = () => {
         <h2 className="text-3xl text-black font-bold flex items-center gap-2">
           <FaHeart className="text-red-500" /> Favourite Songs
         </h2>
+        <h1 className="text-3xl text-white font-bold flex items-center gap-2">Favourite Songs</h1>
+        
+          <button onClick={()=>alldelete()}
+           className={`px-4 py-2 rounded-full font-bold ml-auto mt-4
+          ${darkMode ? "bg-white text-black" : "bg-black text-white"}`}>clear</button>
+          
       </div>
 
       {favourites.length === 0 ? (
         <p className="opacity-70 text-xl">No favourite songs added yet.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          
           {favourites.map((song) => (
             <div
+            
               key={song.id}
               className="bg-[#181818] p-4 rounded-lg cursor-pointer"
               onClick={() => setPlaySong(song)}
             >
+              
               <img
                 src={song.thumbnail}
                 className="w-full h-40 object-cover rounded-lg"
