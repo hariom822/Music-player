@@ -57,12 +57,14 @@ const Login = () => {
             <input type="email" placeholder="Enter your email"
               className={`px-4 py-3  rounded-xl border-3 ${errors.email ? "border-red-500" : "border-black"}`}
               value={logindata.email} onChange={(e) => setLogindata({ ...logindata, email: e.target.value })} />
+              {errors.email && <span className="text-red-500 text-sm mt-1">{errors.email}</span>}
           </div>
           <div className="flex flex-col mb-4">
             <label className="mb-3">Password</label>
             <input type="password" placeholder="Enter your password"
               className={`px-4 py-3  rounded-xl border-3 ${errors.password ? "border-red-500" : "border-black"}`}
               value={logindata.password} onChange={(e) => setLogindata({ ...logindata, password: e.target.value })} />
+              {errors.password && <span className="text-red-500 text-sm mt-1">{errors.password}</span>}
           </div>
           <button className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-700" type='submit'>
             Login

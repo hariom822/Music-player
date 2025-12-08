@@ -5,6 +5,11 @@ export const fetchSingers = createAsyncThunk(
   "music/fetchSingers",
   async () => {
     const res = await axios.get("https://music-player-ci5q.onrender.com/find");
+<<<<<<< HEAD
+=======
+    // const res = await axios.get("https://music-player-2-3b4z.onrender.com/find");
+
+>>>>>>> 4aed3d5 (some change)
     return res.data;
   }
 );

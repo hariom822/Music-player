@@ -66,122 +66,101 @@ const Temp = () => {
   return (
     <>
       {loading ? (
-        <div className="flex items-center justify-center w-full h-100 bg-white rounded-lg shadow-md">
+        <div className="flex items-center justify-center w-full h-[60vh] bg-white rounded-lg shadow-md">
           <div className="flex flex-col items-center gap-3">
-            <div
-              className="w-30 h-30 rounded-full border-10 border-gray-300 border-t-blue-600 animate-spin"
-              role="status"
-              aria-label="Loading"
-            ></div>
-            <span className="text-sm text-gray-600 font-bold">
-              Loading, please wait…
-            </span>
+            <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-full border-4 border-gray-300 border-t-blue-600 animate-spin"></div>
+            <span className="text-sm sm:text-base text-gray-600 font-bold">Loading…</span>
           </div>
         </div>
       ) : (
         <div
-          className={`flex-1 ml-64 mt-10 p-6 overflow-y-auto ${
+          className={`flex-1 mt-[63px] p-3 sm:p-6 overflow-y-auto ${
             darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
+          } ml-0 md:ml-64`}
         >
-          <h2 className="text-2xl font-bold mb-3">Favourite Singers</h2>
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-3">Favourite Singers</h2>
 
-          <div className="flex gap-5 overflow-x-auto pb-2">
+          <div className="flex gap-4 sm:gap-5 overflow-x-auto pb-2">
             {singers.map((singer) => (
               <div
                 key={singer.id}
-                className="text-center cursor-pointer"
+                className="text-center cursor-pointer min-w-[60px] sm:min-w-[70px]"
                 onClick={() => dispatch(setSelectedSinger(singer))}
               >
                 <img
                   src={singer.photo}
-                  className="w-20 h-20 rounded-full border-2 border-gray-500 object-cover"
+                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-gray-500 object-cover"
                 />
-                <p className="text-sm mt-2">{singer.name}</p>
+                <p className="text-xs sm:text-sm mt-1 sm:mt-2">{singer.name}</p>
               </div>
             ))}
           </div>
 
-          <h1 className="text-4xl font-bold mb-6 mt-6">All Songs</h1>
-
+          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-6 mt-6">All Songs</h1>
           {viewMode === "table" && (
-            <table
-              className={`w-full border-collapse ${
-                darkMode ? "text-white" : "text-black"
-              }`}
-            >
-              <thead>
-                <tr className="border-b border-gray-600 text-left">
-                  <th className="p-3">Thumbnail</th>
-                  <th className="p-3">Title</th>
-                  <th className="p-3">Singer</th>
-                  <th className="p-3">Favourite</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {filteredSongs.map((song) => (
-                  <tr
-                    key={song.id}
-                    className="border-b border-gray-700 hover:bg-gray-700/40 cursor-pointer"
-                    onClick={() => checkLoginBeforePlay(song)}
-                  >
-                    <td
-                      className="p-3"
-                      onClick={(e) => {
-                        e.stopPropagation(); 
-                        checkLoginBeforePlay(song);
-                      }}
-                    >
-                      {currentVideo?.id === song.id ? (
-                        <iframe
-                          src={convertEmbed(song.url)}
-                          className="w-32 h-20 rounded-lg"
-                          allow="autoplay"
-                        ></iframe>
-                      ) : (
-                        <img
-                          src={song.thumbnail}
-                          className="w-20 rounded-lg cursor-pointer"
-                        />
-                      )}
-                    </td>
-
-                    <td className="p-3">{song.title}</td>
-                    <td className="p-3">{song.singerName}</td>
-
-                    <td className="p-3">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          dispatch(toggleFavourite(song));
-                        }}
-                      >
-                        {favourites.find((x) => x.id === song.id) ? (
-                          <FaHeart className="text-red-500" />
-                        ) : (
-                          <FaRegHeart />
-                        )}
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className={`w-full border-collapse ${darkMode ? "text-white" : "text-black"}`}>
+                <thead>
+                  <tr className="border-b border-gray-600 text-left">
+                    <th className="p-2 sm:p-3">Thumbnail</th>
+                    <th className="p-2 sm:p-3">Title</th>
+                    <th className="p-2 sm:p-3">Singer</th>
+                    <th className="p-2 sm:p-3">Favourite</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                </thead>
 
+                <tbody>
+                  {filteredSongs.map((song) => (
+                    <tr
+                      key={song.id}
+                      className="border-b border-gray-700 hover:bg-gray-700/40 cursor-pointer"
+                      onClick={() => checkLoginBeforePlay(song)}
+                    >
+                      <td className="p-1 sm:p-3">
+                        {currentVideo?.id === song.id ? (
+                          <iframe
+                            src={convertEmbed(song.url)}
+                            className="w-24 sm:w-32 h-16 sm:h-20 rounded-lg"
+                            allow="autoplay"
+                          ></iframe>
+                        ) : (
+                          <img
+                            src={song.thumbnail}
+                            className="w-20 sm:w-24 rounded-lg cursor-pointer"
+                          />
+                        )}
+                      </td>
+
+                      <td className="p-1 sm:p-3 text-sm sm:text-base">{song.title}</td>
+                      <td className="p-1 sm:p-3 text-sm sm:text-base">{song.singerName}</td>
+
+                      <td className="p-1 sm:p-3">
+                        <button onClick={() => dispatch(toggleFavourite(song))}>
+                          {favourites.find((x) => x.id === song.id) ? (
+                            <FaHeart className="text-red-500" />
+                          ) : (
+                            <FaRegHeart />
+                          )}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
           {viewMode === "card" && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {filteredSongs.map((song) => (
                 <div
                   key={song.id}
-                  className="bg-[#181818] p-4 rounded-xl hover:bg-[#262626]"
+                  className="bg-[#181818] p-2 sm:p-3 md:p-4 rounded-xl hover:bg-[#262626]"
                 >
                   {currentVideo?.id === song.id && !fullScreen ? (
                     <div className="relative">
                       <iframe
                         src={convertEmbed(song.url)}
-                        className="w-full h-40 rounded-lg"
+                        className="w-full h-28 sm:h-32 md:h-40 rounded-lg"
                         allow="autoplay"
                       ></iframe>
 
@@ -193,7 +172,7 @@ const Temp = () => {
                       </button>
 
                       <IoClose
-                        size={26}
+                        size={24}
                         onClick={() => setCurrentVideo(null)}
                         className="absolute top-2 left-2 bg-black/60 p-1 rounded-full cursor-pointer"
                       />
@@ -202,15 +181,15 @@ const Temp = () => {
                     <LazyLoadImage
                       src={song.thumbnail}
                       onClick={() => checkLoginBeforePlay(song)}
-                      className="w-full h-40 rounded-xl cursor-pointer"
+                      className="w-full h-28 sm:h-32 md:h-40 rounded-xl cursor-pointer"
                     />
                   )}
 
                   <div className="mt-2">
-                    <p className="font-semibold">{song.title}</p>
-                    <p className="text-gray-400 text-sm">{song.singerName}</p>
+                    <p className="font-semibold text-sm sm:text-base">{song.title}</p>
+                    <p className="text-gray-400 text-xs sm:text-sm">{song.singerName}</p>
 
-                    <div className="flex justify-end mt-2">
+                    <div className="flex justify-end mt-1 sm:mt-2">
                       <button onClick={() => dispatch(toggleFavourite(song))}>
                         {favourites.find((x) => x.id === song.id) ? (
                           <FaHeart className="text-red-500" />
@@ -224,13 +203,16 @@ const Temp = () => {
               ))}
             </div>
           )}
+
           {fullScreen && currentVideo && (
             <div className="fixed inset-0 bg-black z-[999] flex flex-col">
-              <div className="flex justify-between p-4">
-                <h3 className="text-xl text-white">{currentVideo.title}</h3>
+              <div className="flex justify-between p-3 sm:p-4">
+                <h3 className="text-base sm:text-lg md:text-xl text-white">
+                  {currentVideo.title}
+                </h3>
 
                 <IoClose
-                  size={32}
+                  size={28}
                   onClick={() => setFullScreen(false)}
                   className="cursor-pointer text-white"
                 />

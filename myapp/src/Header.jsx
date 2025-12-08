@@ -1,35 +1,38 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchText,setViewMode  } from "./redux/singerSlice";
-import { FaHeart, FaMoon, FaSun,FaTable,FaThLarge } from "react-icons/fa";
-import { useNavigate ,Link} from "react-router-dom";
+import { setSearchText, setViewMode } from "./redux/singerSlice";
+import { FaHeart, FaMoon, FaSun, FaTable, FaThLarge } from "react-icons/fa";
+import { useNavigate, Link } from "react-router-dom";
 import { toggleTheme } from "./redux/themeSlice";
 import { IoClose } from "react-icons/io5";
+
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [show, setShow] = useState(true)
-  const { searchText, favourites } = useSelector((s) => s.music);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+
+  const { searchText, favourites, viewMode } = useSelector((s) => s.music);
   const { darkMode } = useSelector((s) => s.theme);
-  const isLogin = sessionStorage.getItem('loginuser')
-  const { viewMode } = useSelector((s) => s.music);
+
   const loginUser = JSON.parse(localStorage.getItem("user"));
-  const userdata =()=>{
-    // navigate('/user')
-    setShow(!show)
-  }
-  const deleteuser=()=>{
+
+  const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
+
+  const logoutUser = () => {
     localStorage.removeItem("user");
     alert("Logout successful!");
     navigate("/login");
-  }
+    setShowUserDropdown(false);
+  };
+
   return (
-    <div
-      className={`w-full fixed top-0 flex items-center justify-between px-6 py-4 z-50 transition-all 
+    <header
+      className={`fixed top-0 left-0 w-full z-50 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 px-3 sm:px-6 py-2 md:py-3 transition-all
         ${darkMode ? "bg-[#101010] text-white" : "bg-gray-200 text-black"}`}
     >
+     
       <h2
-        className="text-xl font-bold cursor-pointer"
+        className="text-lg sm:text-xl md:text-2xl font-bold cursor-pointer flex-shrink-0"
         onClick={() => navigate("/")}
       >
         Music App
@@ -40,98 +43,84 @@ const Header = () => {
         value={searchText}
         onChange={(e) => dispatch(setSearchText(e.target.value))}
         placeholder="Search songs..."
-        className={`px-4 py-2 rounded-full w-96 outline-none
-          ${darkMode ? "bg-[#242424] text-white" : "bg-white text-black"}`}
+        className={`flex-1 max-w-full md:max-w-md px-3 py-1.5 md:py-2 rounded-full outline-none text-sm md:text-base
+          ${darkMode ? "bg-[#242424] text-white placeholder-gray-400" : "bg-white text-black placeholder-gray-500"}`}
       />
 
-      <div className="flex items-center gap-4">
-        <button onClick={() => dispatch(toggleTheme())} 
-        className="px-3 py-2 rounded-full transition  font-bold">
-            {darkMode ? (
-    <FaSun size={22} className="text-yellow-400" />
-  ) : (
-    <FaMoon size={22} className="text-black" />
-  )}
-        </button>
-        
-<button
-  onClick={() => dispatch(setViewMode(viewMode === "card" ? "table" : "card"))}
-  className="px-3 py-2 rounded-full bg-white hover:bg-gray-400 transition flex items-center justify-center"
->
-  {viewMode === "card" ? (
-    <FaTable size={20} className="text-black" />
-  ) : (
-    <FaThLarge size={20} className="text-black" />
-  )}
-</button>
-        
-
-        <button onClick={() => navigate("/favourite")}>
-          <div
-            className={`flex items-center gap-1 px-3 py-1 rounded-full cursor-pointer
-            ${darkMode ? "bg-[#242424]" : "bg-gray-300"}`}
-          >
-            <FaHeart className="text-red-500" />
-            <p>{favourites.length}</p>
-          </div>
-        </button>
-        {show?(<button
-          onClick={() =>userdata()}
-          className={`px-4 py-2 rounded-full font-bold transition
-          ${darkMode ? "bg-white text-black" : "bg-black text-white"}`}
+      <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-wrap md:flex-nowrap">
+      
+        <button
+          onClick={() => dispatch(toggleTheme())}
+          className="px-2 py-1.5 md:px-3 md:py-2 rounded-full transition font-bold flex items-center justify-center"
         >
-          User
-        </button>):(
-          <div>
+          {darkMode ? <FaSun size={18} className="text-yellow-400" /> : <FaMoon size={18} className="text-black" />}
+        </button>
+
+        <button
+          onClick={() => dispatch(setViewMode(viewMode === "card" ? "table" : "card"))}
+          className={`px-2 py-1.5 md:px-3 md:py-2 rounded-full transition flex items-center justify-center
+            ${darkMode ? "bg-gray-800" : "bg-white hover:bg-gray-300"}`}
+        >
+          {viewMode === "card" ? <FaTable size={16} /> : <FaThLarge size={16} />}
+        </button>
+
+        <button
+          onClick={() => navigate("/favourite")}
+          className={`flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 rounded-full flex-shrink-0 text-sm md:text-base
+            ${darkMode ? "bg-gray-800" : "bg-gray-300"}`}
+        >
+          <FaHeart className="text-red-500" />
+          <span>{favourites.length}</span>
+        </button>
+
+        <div className="relative flex-shrink-0">
           <button
-          onClick={() =>userdata()}
-          className={`px-4 py-2 rounded-full font-bold transition
-          ${darkMode ? "bg-white text-black" : "bg-black text-white"}`}
-        >
-          User
-        </button>
-        <div
-  className={`fixed top-15 right-0 w-[380px] h-[320px]  
-    border rounded-t-xl z-[999] flex flex-col 
-    ${darkMode ? "text-white bg-black" : "bg-white text-black"}`}
->
+            onClick={toggleUserDropdown}
+            className={`px-3 py-1.5 md:px-4 md:py-2 rounded-full font-bold transition text-sm md:text-base
+              ${darkMode ? "bg-white text-black" : "bg-black text-white"}`}
+          >
+            User
+          </button>
 
+          {showUserDropdown && (
+            <div
+              className={`absolute right-0 mt-2 w-[90vw] max-w-[360px] sm:w-[380px] border rounded-xl shadow-lg z-50
+                ${darkMode ? "bg-black text-white border-gray-700" : "bg-white text-black border-gray-300"}`}
+            >
+              <div className="flex justify-between items-center px-4 py-2 bg-blue-600 rounded-t-xl">
+                <h3 className="text-base font-semibold">User Profile</h3>
+                <IoClose
+                  size={22}
+                  onClick={() => setShowUserDropdown(false)}
+                  className="cursor-pointer text-white"
+                />
+              </div>
 
-  <div className={`flex justify-between items-center px-4 py-3 bg-blue-600  rounded-t-xl
-    `}>
-    <h2 className="text-xl font-semibold flex items-center  gap-5">
-      User Profile
-    </h2>
-    <IoClose
-     size={35}
-      onClick={() => setShow(true)}
-       className="absolute top-2 right-2 bg-black/60 p-1 rounded-full cursor-pointer"
-    />
-  </div>
-  {loginUser ? (
-    <div className={`px-5 py-4 space-y-3 text-[17px] text-gray-700 font-medium
-    ${darkMode ? "text-white bg-black" : "bg-white text-black"}`}>
-      <p><strong>Name:</strong> {loginUser.name}</p>
-      <p><strong>Email:</strong> {loginUser.email}</p>
-      <p><strong>Phone:</strong> {loginUser.phone}</p>
-      <p><strong>Date of Birth:</strong> {loginUser.dob}</p>
-      <button
-      onClick={()=>deleteuser()}
-        className="mt-5 w-full bg-red-600 px-5 py-2 rounded-lg hover:bg-red-700 text-white font-semibold transition-all"
-      >
-        Logout
-      </button>
-    </div>
-  ) : (
-    <div className={`text-center text-gray-600 py-6 font-bold font-xl
-      ${darkMode ? "text-white bg-black" : "bg-white text-black"}`}>No user logged in <br/>
-      <Link to={'/signup'} className="underline m-6">Singup</Link></div>
-  )}
-</div>
-</div>
-           )}
+              {loginUser ? (
+                <div className="px-4 py-3 space-y-2 text-sm md:text-base font-medium">
+                  <p><strong>Name:</strong> {loginUser.name}</p>
+                  <p><strong>Email:</strong> {loginUser.email}</p>
+                  <p><strong>Phone:</strong> {loginUser.phone}</p>
+                  <p><strong>DOB:</strong> {loginUser.dob}</p>
+
+                  <button
+                    onClick={logoutUser}
+                    className="mt-3 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition-all"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center py-5 font-bold text-sm md:text-base">
+                  No user logged in <br />
+                  <Link to="/signup" className="underline">Signup</Link>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </header>
   );
 };
 
